@@ -21,22 +21,33 @@ function App() {
 
   const [movies, setMovies] = useState([]);
 
-  function movieFetchHandler() {
-    fetch("https://swapi.dev/api/films")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const movies = data.results.map((movie) => {
-          return {
-            id: movie.episode_id,
-            title: movie.title,
-            openingText: movie.opening_crawl,
-            releaseDate: movie.release_date,
-          };
-        });
-        setMovies(movies);
-      });
+  async function movieFetchHandler() {
+    // fetch("https://swapi.dev/api/films")
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     const movies = data.results.map((movie) => {
+    //       return {
+    //         id: movie.episode_id,
+    //         title: movie.title,
+    //         openingText: movie.opening_crawl,
+    //         releaseDate: movie.release_date,
+    //       };
+    //     });
+    //     setMovies(movies);
+    //   });
+    const response = await fetch("https://swapi.dev/api/films");
+    const data = await response.json();
+    const movies = data.results.map((data) => {
+      return {
+        id: data.episode_id,
+        title: data.title,
+        openingText: data.opening_crawl,
+        releaseDate: data.release_date,
+      }
+    });
+    setMovies(movies);
   }
 
   return (
