@@ -18,8 +18,11 @@ function App() {
   //     releaseDate: '2021-05-19',
   //   },
   // ];
-
+  ///////with this state we can tell whether we have movies or not
   const [movies, setMovies] = useState([]);
+  ////To know if we are waiting or not we have to use next state
+  //with the help of this loading state we can display a loading spinner when data is being fetched in the background
+  const [isLoading, setIsLoading] = useState(false);
 
   async function movieFetchHandler() {
     // fetch("https://swapi.dev/api/films")
@@ -37,6 +40,7 @@ function App() {
     //     });
     //     setMovies(movies);
     //   });
+    setIsLoading(true);
     const response = await fetch("https://swapi.dev/api/films");
     const data = await response.json();
     const movies = data.results.map((data) => {
@@ -45,18 +49,21 @@ function App() {
         title: data.title,
         openingText: data.opening_crawl,
         releaseDate: data.release_date,
-      }
+      };
     });
+    // movies = [];
     setMovies(movies);
+    setIsLoading(false);
   }
-
   return (
     <React.Fragment>
       <section>
         <button onClick={movieFetchHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+        {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
+        {!isLoading && movies.length === 0 && <p>No movies</p>}
+        {isLoading && <p>Loading....</p>}
       </section>
     </React.Fragment>
   );
