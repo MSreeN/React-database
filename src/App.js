@@ -23,7 +23,7 @@ function App() {
   ////To know if we are waiting or not we have to use next state
   //with the help of this loading state we can display a loading spinner when data is being fetched in the background
   const [isLoading, setIsLoading] = useState(false);
-
+  const [error, setError] = useState();
   async function movieFetchHandler() {
     // fetch("https://swapi.dev/api/films")
     //   .then((response) => {
@@ -41,19 +41,29 @@ function App() {
     //     setMovies(movies);
     //   });
     setIsLoading(true);
-    const response = await fetch("https://swapi.dev/api/films");
+    setError(null);
+    try{
+    const response = await fetch("https://swapi.dev/api/film");
+    if(!response.ok){
+      throw new Error("Something went wrong");
+    }
     const data = await response.json();
-    const movies = data.results.map((data) => {
-      return {
-        id: data.episode_id,
-        title: data.title,
-        openingText: data.opening_crawl,
-        releaseDate: data.release_date,
-      };
-    });
-    // movies = [];
+      const movies = data.results.map((data) => {
+        return {
+          id: data.episode_id,
+          title: data.title,
+          openingText: data.opening_crawl,
+          releaseDate: data.release_date,
+        };
+      });
+      console.log(response);
+      // movies = [];
+    } catch(error){
+      setError(error.message);
+    }
     setMovies(movies);
     setIsLoading(false);
+
   }
   return (
     <React.Fragment>
@@ -62,7 +72,8 @@ function App() {
       </section>
       <section>
         {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
-        {!isLoading && movies.length === 0 && <p>No movies</p>}
+        {!isLoading && movies.length === 0 && !error && <p>No movies</p>}
+        {!isLoading && error &&  <p>{error}</p>}
         {isLoading && <p>Loading....</p>}
       </section>
     </React.Fragment>
