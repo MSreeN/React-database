@@ -43,7 +43,7 @@ function App() {
     setIsLoading(true);
     setError(null);
     try{
-    const response = await fetch("https://swapi.dev/api/film");
+    const response = await fetch("https://swapi.dev/api/films");
     if(!response.ok){
       throw new Error("Something went wrong");
     }
@@ -58,10 +58,10 @@ function App() {
       });
       console.log(response);
       // movies = [];
+      setMovies(movies);
     } catch(error){
       setError(error.message);
     }
-    setMovies(movies);
     setIsLoading(false);
 
   }
