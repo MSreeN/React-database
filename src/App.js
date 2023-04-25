@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
@@ -24,7 +24,9 @@ function App() {
   //with the help of this loading state we can display a loading spinner when data is being fetched in the background
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
-  async function movieFetchHandler() {
+
+
+  const movieFetchHandler = useCallback(async () => {
     // fetch("https://swapi.dev/api/films")
     //   .then((response) => {
     //     return response.json();
@@ -42,12 +44,12 @@ function App() {
     //   });
     setIsLoading(true);
     setError(null);
-    try{
-    const response = await fetch("https://swapi.dev/api/films");
-    if(!response.ok){
-      throw new Error("Something went wrong");
-    }
-    const data = await response.json();
+    try {
+      const response = await fetch("https://swapi.dev/api/films");
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      const data = await response.json();
       const movies = data.results.map((data) => {
         return {
           id: data.episode_id,
@@ -59,12 +61,15 @@ function App() {
       console.log(response);
       // movies = [];
       setMovies(movies);
-    } catch(error){
+    } catch (error) {
       setError(error.message);
     }
     setIsLoading(false);
-
-  }
+  },[])
+  useEffect(() => {
+    movieFetchHandler();
+    ///if i don't mention [] in the dependencies it will cause infinite loop.
+  },[]);
   return (
     <React.Fragment>
       <section>
@@ -73,7 +78,7 @@ function App() {
       <section>
         {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
         {!isLoading && movies.length === 0 && !error && <p>No movies</p>}
-        {!isLoading && error &&  <p>{error}</p>}
+        {!isLoading && error && <p>{error}</p>}
         {isLoading && <p>Loading....</p>}
       </section>
     </React.Fragment>
