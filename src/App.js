@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
+import AddMovie from "./components/AddMovie";
 
 function App() {
   // const dummyMovies = [
@@ -24,7 +25,6 @@ function App() {
   //with the help of this loading state we can display a loading spinner when data is being fetched in the background
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
-
 
   const movieFetchHandler = useCallback(async () => {
     // fetch("https://swapi.dev/api/films")
@@ -58,24 +58,45 @@ function App() {
           releaseDate: data.release_date,
         };
       });
-      console.log(response);
+      // console.log(response);
       // movies = [];
       setMovies(movies);
     } catch (error) {
       setError(error.message);
     }
     setIsLoading(false);
-  },[])
+  }, []);
   useEffect(() => {
     movieFetchHandler();
     ///if i don't mention [] in the dependencies it will cause infinite loop.
-  },[]);
+  }, []);
+
+  const addMoveHandler = async (movie) => {
+    try{
+      const response = await fetch("https://react-database-2038d-default-rtdb.firebaseio.com/movies.json", {
+        method: "POST",
+        body: JSON.stringify(movie),
+        headers: {
+          "Content-Type": 'application/json'
+        }
+      });
+      if(!response.ok) throw new Error("something went wrong")
+      const data = await response.json();
+      console.log(data);
+    }
+    catch(e){
+      setError(e.message);
+    }
+
+  };
+  console.log(movies);
   return (
     <React.Fragment>
       <section>
         <button onClick={movieFetchHandler}>Fetch Movies</button>
       </section>
       <section>
+        <AddMovie onAddMovie={addMoveHandler} />
         {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
         {!isLoading && movies.length === 0 && !error && <p>No movies</p>}
         {!isLoading && error && <p>{error}</p>}
