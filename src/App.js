@@ -21,6 +21,7 @@ function App() {
   // ];
   ///////with this state we can tell whether we have movies or not
   const [movies, setMovies] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(true);
   ////To know if we are waiting or not we have to use next state
   //with the help of this loading state we can display a loading spinner when data is being fetched in the background
   const [isLoading, setIsLoading] = useState(false);
@@ -91,14 +92,19 @@ function App() {
     }
 
   };
-  console.log(movies);
+  // console.log(movies);
+
+  function formToggleHandler(e){
+    setIsFormOpen(!isFormOpen);
+  }
   return (
     <React.Fragment>
       <section>
         <button onClick={movieFetchHandler}>Fetch Movies</button>
       </section>
       <section>
-        <AddMovie onAddMovie={addMoveHandler} />
+        {isFormOpen && <AddMovie formStatus = {isFormOpen} onAddMovie={addMoveHandler} />}
+        <button onClick={formToggleHandler}>{isFormOpen? "Close From": "Open Form"}</button>
         {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
         {!isLoading && movies.length === 0 && !error && <p>No movies</p>}
         {!isLoading && error && <p>{error}</p>}

@@ -24,3 +24,11 @@
   outline: none;
   border-color: #230052;
 }
+
+form{
+  transition: all 300ms;
+}
+
+.collapsed{
+  max-height: 0;
+}
