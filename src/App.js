@@ -45,22 +45,23 @@ function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://swapi.dev/api/films");
+      const response = await fetch("https://react-database-2038d-default-rtdb.firebaseio.com/movies.json");
       if (!response.ok) {
         throw new Error("Something went wrong");
       }
       const data = await response.json();
-      const movies = data.results.map((data) => {
-        return {
-          id: data.episode_id,
-          title: data.title,
-          openingText: data.opening_crawl,
-          releaseDate: data.release_date,
-        };
-      });
+      const loadedMovies = [];
+      for(const [key, value] of Object.entries(data)){
+        loadedMovies.push({
+          id: key,
+          title: value.title,
+          releaseDate: value.releaseDate,
+          openingText: value.openingText
+        })
+      }
       // console.log(response);
       // movies = [];
-      setMovies(movies);
+      setMovies(loadedMovies);
     } catch (error) {
       setError(error.message);
     }
@@ -82,7 +83,8 @@ function App() {
       });
       if(!response.ok) throw new Error("something went wrong")
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
+      movieFetchHandler();
     }
     catch(e){
       setError(e.message);
