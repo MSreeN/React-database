@@ -19,6 +19,9 @@ function AddMovie(props) {
     };
 
     props.onAddMovie(movie);
+    openingTextRef.current.value = "";
+    titleRef.current.value = "";
+    releaseDateRef.current.value = "";
   }
 
   return (
