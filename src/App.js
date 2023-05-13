@@ -103,7 +103,7 @@ function App() {
         <button onClick={movieFetchHandler}>Fetch Movies</button>
       </section>
       <section>
-        {isFormOpen && <AddMovie formStatus = {isFormOpen} onAddMovie={addMoveHandler} />}
+        {<AddMovie formStatus = {isFormOpen} onAddMovie={addMoveHandler} />}
         <button onClick={formToggleHandler}>{isFormOpen? "Close From": "Open Form"}</button>
         {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
         {!isLoading && movies.length === 0 && !error && <p>No movies</p>}

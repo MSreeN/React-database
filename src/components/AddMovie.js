@@ -24,6 +24,8 @@ function AddMovie(props) {
     releaseDateRef.current.value = "";
   }
 
+
+
   return (
     <form className = {`${props.formStatus? "": classes.collapsed}`} onSubmit={submitHandler}>
       <div className={classes.control}>
