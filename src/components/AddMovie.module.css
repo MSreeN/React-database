@@ -25,10 +25,12 @@
   border-color: #230052;
 }
 
-form{
-  transition: display 300ms;
+.form{
+  max-height: 500px;
+  overflow: hidden;
+  transition: all 300ms;
 }
 
-.collapsed{
-  display: none;
+.form.collapsed{
+  max-height: 0;
 }

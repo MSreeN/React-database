@@ -27,7 +27,7 @@ function AddMovie(props) {
 
 
   return (
-    <form className = {`${props.formStatus? "": classes.collapsed}`} onSubmit={submitHandler}>
+    <form className = {`${classes.form} ${props.formStatus? "": classes.collapsed}`} onSubmit={submitHandler}>
       <div className={classes.control}>
         <label htmlFor='title'>Title</label>
         <input type='text' id='title' ref={titleRef} />
