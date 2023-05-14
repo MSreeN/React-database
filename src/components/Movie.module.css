@@ -18,3 +18,13 @@
   margin: 0;
   font-size: 1rem;
 }
+
+svg{
+  width: 18px;
+  height: 18px;
+  transform: translateX(180px);
+}
+
+svg:hover{
+  stroke: red;
+}
