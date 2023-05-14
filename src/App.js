@@ -75,17 +75,20 @@ function App() {
 
   const addMoveHandler = async (movie) => {
     try{
-      const response = await fetch("https://react-database-2038d-default-rtdb.firebaseio.com/movies.json", {
-        method: "POST",
-        body: JSON.stringify(movie),
-        headers: {
-          "Content-Type": 'application/json'
-        }
-      });
-      if(!response.ok) throw new Error("something went wrong")
-      const data = await response.json();
-      // console.log(data);
-      movieFetchHandler();
+      if(!movie.title === "" || !movie.releaseDate === "" || !movie.openingText === ""){
+
+        const response = await fetch("https://react-database-2038d-default-rtdb.firebaseio.com/movies.json", {
+          method: "POST",
+          body: JSON.stringify(movie),
+          headers: {
+            "Content-Type": 'application/json'
+          }
+        });
+        if(!response.ok) throw new Error("something went wrong")
+        const data = await response.json();
+        // console.log(data);
+        movieFetchHandler();
+      }
     }
     catch(e){
       setError(e.message);
