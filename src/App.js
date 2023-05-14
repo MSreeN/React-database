@@ -46,19 +46,21 @@ function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://react-database-2038d-default-rtdb.firebaseio.com/movies.json");
+      const response = await fetch(
+        "https://react-database-2038d-default-rtdb.firebaseio.com/movies.json"
+      );
       if (!response.ok) {
         throw new Error("Something went wrong");
       }
       const data = await response.json();
       const loadedMovies = [];
-      for(const [key, value] of Object.entries(data)){
+      for (const [key, value] of Object.entries(data)) {
         loadedMovies.push({
           id: key,
           title: value.title,
           releaseDate: value.releaseDate,
-          openingText: value.openingText
-        })
+          openingText: value.openingText,
+        });
       }
       // console.log(response);
       // movies = [];
@@ -74,30 +76,28 @@ function App() {
   }, []);
 
   const addMoveHandler = async (movie) => {
-    try{
-      if(!movie.title === "" || !movie.releaseDate === "" || !movie.openingText === ""){
-
-        const response = await fetch("https://react-database-2038d-default-rtdb.firebaseio.com/movies.json", {
+    try {
+      const response = await fetch(
+        "https://react-database-2038d-default-rtdb.firebaseio.com/movies.json",
+        {
           method: "POST",
           body: JSON.stringify(movie),
           headers: {
-            "Content-Type": 'application/json'
-          }
-        });
-        if(!response.ok) throw new Error("something went wrong")
-        const data = await response.json();
-        // console.log(data);
-        movieFetchHandler();
-      }
-    }
-    catch(e){
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) throw new Error("something went wrong");
+      const data = await response.json();
+      // console.log(data);
+      movieFetchHandler();
+    } catch (e) {
       setError(e.message);
     }
-
   };
   // console.log(movies);
 
-  function formToggleHandler(e){
+  function formToggleHandler(e) {
     setIsFormOpen(!isFormOpen);
   }
   return (
@@ -106,8 +106,10 @@ function App() {
         <button onClick={movieFetchHandler}>Fetch Movies</button>
       </section>
       <section>
-        {<AddMovie formStatus = {isFormOpen} onAddMovie={addMoveHandler} />}
-        <button onClick={formToggleHandler}>{isFormOpen? "Close From": "Open Form"}</button>
+        {<AddMovie formStatus={isFormOpen} onAddMovie={addMoveHandler} />}
+        <button onClick={formToggleHandler}>
+          {isFormOpen ? "Close From" : "Open Form"}
+        </button>
         {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
         {!isLoading && movies.length === 0 && !error && <p>No movies</p>}
         {!isLoading && error && <p>{error}</p>}

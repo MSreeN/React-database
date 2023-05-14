@@ -17,8 +17,9 @@ function AddMovie(props) {
       openingText: openingTextRef.current.value,
       releaseDate: releaseDateRef.current.value,
     };
-
-    props.onAddMovie(movie);
+    if(movie.title !== "" || movie.openingText !== "" || movie.releaseDate !== ""){
+      props.onAddMovie(movie);
+    }
     openingTextRef.current.value = "";
     titleRef.current.value = "";
     releaseDateRef.current.value = "";
