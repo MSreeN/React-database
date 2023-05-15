@@ -10,12 +10,10 @@ const Movie = (props) => {
     const par = e.target.closest("li");
     const delIcon = delRef.current;
     delIcon.style.display = "block";
-    console.log("in");
   }
 
   function deleteIconOutHandler(e){
     delRef.current.style.display = "none";
-    console.log("out");
   }
 
   return (
