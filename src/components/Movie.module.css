@@ -6,6 +6,8 @@
   border-radius: 12px;
   text-align: center;
   color: white;
+
+  position: relative;
 }
 
 .movie h2 {
@@ -19,12 +21,22 @@
   font-size: 1rem;
 }
 
-svg{
+.del-container{
+  position: absolute;
+  left: 50%;
+
+  display: inline-block;
   width: 18px;
   height: 18px;
   transform: translateX(180px);
+  display: none;
 }
+
 
 svg:hover{
   stroke: red;
+}
+
+.del-display{
+  display: block;
 }
