@@ -16,9 +16,13 @@ const Movie = (props) => {
     delRef.current.style.display = "none";
   }
 
+  function deleteMovieHandler(){
+    console.log("movie has been deleted");
+  }
+
   return (
     <li className={`${classes.movie} movieEach`} onMouseEnter = {deleteIconHandler} onMouseLeave = {deleteIconOutHandler}>
-    <div ref={delRef} className={classes['del-container']}>
+    <div onClick={deleteMovieHandler}  ref={delRef} className={classes['del-container']}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
