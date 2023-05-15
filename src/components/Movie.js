@@ -7,7 +7,6 @@ const Movie = (props) => {
 
   const delRef = useRef();
   function deleteIconHandler(e){
-    const par = e.target.closest("li");
     const delIcon = delRef.current;
     delIcon.style.display = "block";
   }
@@ -17,7 +16,7 @@ const Movie = (props) => {
   }
 
   function deleteMovieHandler(){
-    console.log("movie has been deleted");
+    console.log(`${props.title}`);
   }
 
   return (
