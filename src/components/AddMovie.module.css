@@ -27,7 +27,7 @@
 
 .form{
   max-height: 500px;
-  max-width: 500px;
+  max-width: 600px;
   overflow: hidden;
   transition: all 800ms;
 }
